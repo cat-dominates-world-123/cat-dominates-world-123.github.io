@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cat Dominates World 🐾</title>
+
+  <!-- Pretendard: 한국어 웹에서 가장 많이 쓰이는 깔끔한 고딕 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+    /* =========================================
+       DESIGN TOKENS
+    ========================================= */
+    :root {
+      --cream:    #FEF6EC;
+      --coral:    #F4845F;
+      --blush:    #FADADD;
+      --sage:     #7BAE84;
+      --charcoal: #2D2926;
+      --warm-mid: #C9856B;
+      --white:    #FFFFFF;
+      --shadow:   rgba(45, 41, 38, 0.10);
+
+      --font-display: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body:    'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+      --radius-pill: 999px;
+    }
+
+    /* =========================================
+       RESET & BASE
+    ========================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--charcoal);
+      font-family: var(--font-body);
+      /* subtle polka-dot background */
+      background-image: radial-gradient(circle, #e8d5c0 1px, transparent 1px);
+      background-size: 28px 28px;
+      cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='20'%3E🐾%3C/text%3E%3C/svg%3E") 4 4, auto;
+    }
+
+    /* =========================================
+       FLOATING DECORATIONS
+    ========================================= */
+    .deco {
+      position: absolute;
+      font-size: 1.4rem;
+      opacity: 0.18;
+      pointer-events: none;
+      user-select: none;
+      animation: float 5s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(-6deg); }
+      50%       { transform: translateY(-12px) rotate(6deg); }
+    }
+
+    /* =========================================
+       NAVIGATION
+    ========================================= */
+    nav {
+      position: sticky;
+      top: 0; z-index: 100;
+      background: rgba(254,246,236,0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 2px dashed #e8c9b0;
+      padding: 0.9rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--coral);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--charcoal); }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 0.4rem;
+    }
+    .nav-links a {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 0.88rem;
+      color: var(--charcoal);
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-links a:hover {
+      background: var(--coral);
+      color: var(--white);
+    }
+
+    /* =========================================
+       HERO SECTION
+    ========================================= */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 5rem 4rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 3.5rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* floating deco positions */
+    .hero .deco-1 { top: 8%;  left: 2%;  animation-delay: 0s;   font-size: 2rem; }
+    .hero .deco-2 { top: 20%; right: 5%; animation-delay: 1.2s; font-size: 1.8rem; }
+    .hero .deco-3 { bottom: 12%; left: 8%; animation-delay: 0.6s; }
+    .hero .deco-4 { bottom: 20%; right: 3%; animation-delay: 1.8s; font-size: 1.2rem; }
+
+    .hero-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+      animation: slideUp 0.7s ease both;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--blush);
+      color: var(--warm-mid);
+      border-radius: var(--radius-pill);
+      padding: 0.35rem 1rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      width: fit-content;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      line-height: 1.1;
+      color: var(--charcoal);
+      letter-spacing: -0.02em;
+    }
+    h1 .accent { color: var(--coral); }
+    h1 .underline {
+      position: relative;
+      display: inline-block;
+    }
+    h1 .underline::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 100%; height: 6px;
+      background: var(--blush);
+      border-radius: 3px;
+      z-index: -1;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #6b5c52;
+      font-weight: 300;
+      max-width: 420px;
+    }
+
+    .hero-desc strong {
+      color: var(--charcoal);
+      font-weight: 700;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--coral);
+      color: var(--white);
+      padding: 0.85rem 2rem;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      width: fit-content;
+      box-shadow: 0 6px 20px rgba(244,132,95,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(244,132,95,0.45);
+    }
+
+    /* ── HERO IMAGE ── */
+    .hero-image-wrap {
+      position: relative;
+      animation: slideUp 0.7s 0.15s ease both;
+    }
+
+    /* background blob */
+    .hero-image-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -16px -16px -16px 16px;
+      background: var(--blush);
+      border-radius: var(--radius-lg);
+      z-index: 0;
+    }
+
+    .img-box {
+      position: relative;
+      z-index: 1;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: #f0ddd5;
+      aspect-ratio: 4 / 5;
+      border: 3px solid var(--white);
+      box-shadow: 0 16px 48px var(--shadow);
+    }
+    .img-box img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* placeholder shown when img fails / no src */
+    .img-placeholder {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.5rem;
+      color: var(--warm-mid);
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      pointer-events: none;
+    }
+    .img-placeholder .ph-icon { font-size: 3rem; }
+    .img-placeholder .ph-name {
+      background: rgba(255,255,255,0.75);
+      padding: 0.2rem 0.7rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.75rem;
+      color: #a07060;
+    }
+    /* hide placeholder once image loads */
+    .img-box img.loaded ~ .img-placeholder { display: none; }
+
+    /* floating tag on hero image */
+    .img-tag {
+      position: absolute;
+      bottom: -14px; left: 28px;
+      z-index: 2;
+      background: var(--sage);
+      color: var(--white);
+      border-radius: var(--radius-pill);
+      padding: 0.5rem 1.2rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 4px 14px rgba(123,174,132,0.4);
+      white-space: nowrap;
+    }
+
+    /* =========================================
+       STATEMENT BANNER
+    ========================================= */
+    .statement {
+      background: var(--coral);
+      padding: 2rem 4rem;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .statement p {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.1rem, 3vw, 1.7rem);
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .statement span { opacity: 0.55; margin: 0 0.8rem; }
+
+    /* =========================================
+       GALLERY SECTION
+    ========================================= */
+    .gallery-section {
+      padding: 5rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2.4rem;
+    }
+    .section-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--charcoal);
+    }
+    .section-header .tag {
+      font-size: 0.8rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--coral);
+      background: #FDE8E0;
+      padding: 0.2rem 0.7rem;
+      border-radius: var(--radius-pill);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-rows: 240px 240px;
+      gap: 1rem;
+    }
+
+    .gallery-card {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #f0ddd5;
+      box-shadow: 0 4px 18px var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .gallery-card:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 12px 32px rgba(45,41,38,0.16);
+    }
+    /* first card spans 2 rows */
+    .gallery-card:nth-child(1) { grid-row: span 2; }
+
+    .gallery-card img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery-card .img-placeholder { font-size: 0.72rem; }
+    .gallery-card .img-placeholder .ph-icon { font-size: 2.2rem; }
+
+    /* caption overlay on hover */
+    .gallery-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(45,41,38,0.7));
+      color: var(--white);
+      padding: 1.2rem 1rem 0.8rem;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+    .gallery-card:hover .gallery-caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================
+       FEATURE SECTION  (image + text)
+    ========================================= */
+    .feature-section {
+      background: var(--blush);
+      padding: 5rem 4rem;
+    }
+    .feature-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .feature-img-wrap {
+      position: relative;
+    }
+    .feature-img-wrap::after {
+      content: '👑';
+      position: absolute;
+      top: -20px; right: -10px;
+      font-size: 2.4rem;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    }
+
+    .feature-img {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: #f0ddd5;
+      aspect-ratio: 1 / 1;
+      border: 4px solid var(--white);
+      box-shadow: 0 12px 40px rgba(45,41,38,0.12);
+    }
+    .feature-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .feature-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+    .feature-copy h2 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      line-height: 1.2;
+      color: var(--charcoal);
+    }
+    .feature-copy h2 em {
+      font-style: normal;
+      color: var(--coral);
+    }
+    .feature-copy p {
+      font-size: 0.98rem;
+      line-height: 1.9;
+      color: #6b5c52;
+      font-weight: 300;
+    }
+    .feature-stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 0.4rem;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .stat .num {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.9rem;
+      color: var(--coral);
+      line-height: 1;
+    }
+    .stat .label {
+      font-size: 0.78rem;
+      color: #a07060;
+      font-family: var(--font-display);
+      font-weight: 700;
+    }
+
+    /* =========================================
+       QUOTE / MANIFESTO
+    ========================================= */
+    .manifesto {
+      padding: 6rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .manifesto-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .manifesto blockquote {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.5rem, 4vw, 2.6rem);
+      line-height: 1.4;
+      color: var(--charcoal);
+    }
+    .manifesto blockquote .highlight {
+      color: var(--coral);
+      background: none;
+    }
+    .manifesto cite {
+      display: block;
+      margin-top: 1.5rem;
+      font-style: normal;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--warm-mid);
+      letter-spacing: 0.08em;
+    }
+    /* big deco quote marks */
+    .manifesto::before {
+      content: '🐾';
+      position: absolute;
+      top: 1.5rem; left: 3rem;
+      font-size: 6rem;
+      opacity: 0.06;
+      transform: scaleX(-1);
+      pointer-events: none;
+    }
+    .manifesto::after {
+      content: '🐾';
+      position: absolute;
+      bottom: 1.5rem; right: 3rem;
+      font-size: 6rem;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+    footer {
+      background: var(--charcoal);
+      color: #c4aea0;
+      padding: 2.2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    footer .footer-logo { color: var(--coral); font-weight: 800; font-size: 1rem; }
+    footer a { color: var(--blush); text-decoration: none; }
+    footer a:hover { color: var(--coral); }
+
+    /* =========================================
+       SCROLL REVEAL
+    ========================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+    @media (max-width: 900px) {
+      nav { padding: 0.9rem 1.5rem; }
+      .nav-links { display: none; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 3rem 1.5rem 2rem;
+        gap: 2.5rem;
+      }
+      .hero-image-wrap::before { inset: -10px -10px -10px 10px; }
+
+      .gallery-section { padding: 3.5rem 1.5rem; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 180px 180px 180px;
+      }
+      .gallery-card:nth-child(1) {
+        grid-row: 1;
+        grid-column: 1 / 3;
+      }
+
+      .feature-section { padding: 3.5rem 1.5rem; }
+      .feature-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      .manifesto { padding: 4rem 1.5rem; }
+      .statement { padding: 1.5rem 1.5rem; }
+      footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════
+       NAVIGATION
+  ════════════════════════════════════════ -->
+  <nav>
+    <a class="nav-logo" href="#">🐾 Cat<span>DW</span></a>
+    <ul class="nav-links">
+      <li><a href="#gallery">갤러리</a></li>
+      <li><a href="#about">소개</a></li>
+      <li><a href="#manifesto">선언문</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <section class="hero">
+    <!-- floating decorations -->
+    <div class="deco deco-1">🐾</div>
+    <div class="deco deco-2">✨</div>
+    <div class="deco deco-3">🌍</div>
+    <div class="deco deco-4">🐾</div>
+
+    <!-- LEFT: copy -->
+    <div class="hero-copy">
+      <div class="badge">🌍 세계 정복 프로젝트</div>
+
+      <h1>
+        고양이는<br />
+        <span class="accent">지구를</span><br />
+        <span class="underline">정복한다</span>
+      </h1>
+
+      <p class="hero-desc">
+        귀엽고, 우아하고, 무자비하다.<br />
+        고양이는 <strong>지구를 정복하기 위해 태어난 존재</strong>다.<br />
+        그리고 우리는 기꺼이 그 정복을 환영한다. 🐱
+      </p>
+
+      <a class="hero-cta" href="#about">정복의 증거 보기 →</a>
+    </div>
+
+    <!-- RIGHT: hero image -->
+    <div class="hero-image-wrap">
+      <div class="img-box">
+        <!--
+          ✏️  이미지 교체 방법:
+          src 에 파일 경로를 넣으세요.
+          예) src="assets/images/hero.jpg"
+        -->
+        <img
+          src="assets/images/hero.jpg"
+          alt="정복자 고양이"
+          onload="this.classList.add('loaded')"
+          onerror="this.style.display='none'"
+        />
+        <div class="img-placeholder">
+          <span class="ph-icon">😼</span>
+          <span>메인 고양이 사진</span>
+          <span class="ph-name">assets/images/hero.jpg</span>
+        </div>
+      </div>
+      <div class="img-tag">👑 The Conqueror</div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       STATEMENT BANNER
+  ════════════════════════════════════════ -->
+  <div class="statement">
+    <p>
+      고양이는 지구를 정복하기 위해 태어난 존재다
+      <span>🐾</span>
+      Cats Were Born to Dominate the World
+      <span>🐾</span>
+      고양이는 지구를 정복하기 위해 태어난 존재다
+    </p>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       GALLERY
+  ════════════════════════════════════════ -->
+  <section class="gallery-section reveal" id="gallery">
+    <div class="section-header">
+      <h2>🐈 정복의 순간들</h2>
+      <span class="tag">Gallery</span>
+    </div>
+
+    <div class="gallery-grid">
+
+      <!-- 갤러리 이미지 1 (왼쪽 큰 카드) -->
+      <div class="gallery-card">
+        <img src="assets/images/gallery-1.jpg" alt="갤러리 1"
+          onerror="this.style.display='none'" />
+        <div class="img-placeholder">
+          <span class="ph-icon">🐱</span>
+          <span>gallery-1.jpg</span>
+          <span class="ph-name">assets/images/gallery-1.jpg</span>
+        </div>
+        <div class="gallery-caption">세상을 내려다보는 고양이</div>
+      </div>
+
+      <!-- 갤러리 이미지 2 -->
+      <div class="gallery-card">
+        <img src="assets/images/gallery-2.jpg" alt="갤러리 2"
+          onerror="this.style.display='none'" />
+        <div class="img-placeholder">
+          <span class="ph-icon">😸</span>
+          <span>gallery-2.jpg</span>
+          <span class="ph-name">assets/images/gallery-2.jpg</span>
+        </div>
+        <div class="gallery-caption">귀여움으로 정복</div>
+      </div>
+
+      <!-- 갤러리 이미지 3 -->
+      <div class="gallery-card">
+        <img src="assets/images/gallery-3.jpg" alt="갤러리 3"
+          onerror="this.style.display='none'" />
+        <div class="img-placeholder">
+          <span class="ph-icon">😽</span>
+          <span>gallery-3.jpg</span>
+          <span class="ph-name">assets/images/gallery-3.jpg</span>
+        </div>
+        <div class="gallery-caption">무적의 발바닥</div>
+      </div>
+
+      <!-- 갤러리 이미지 4 -->
+      <div class="gallery-card">
+        <img src="assets/images/gallery-4.jpg" alt="갤러리 4"
+          onerror="this.style.display='none'" />
+        <div class="img-placeholder">
+          <span class="ph-icon">🐾</span>
+          <span>gallery-4.jpg</span>
+          <span class="ph-name">assets/images/gallery-4.jpg</span>
+        </div>
+        <div class="gallery-caption">인간을 복종시키는 눈빛</div>
+      </div>
+
+      <!-- 갤러리 이미지 5 -->
+      <div class="gallery-card">
+        <img src="assets/images/gallery-5.jpg" alt="갤러리 5"
+          onerror="this.style.display='none'" />
+        <div class="img-placeholder">
+          <span class="ph-icon">🐈‍⬛</span>
+          <span>gallery-5.jpg</span>
+          <span class="ph-name">assets/images/gallery-5.jpg</span>
+        </div>
+        <div class="gallery-caption">야간 정복 작전</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       FEATURE SECTION
+  ════════════════════════════════════════ -->
+  <section class="feature-section" id="about">
+    <div class="feature-inner">
+
+      <!-- 피처 이미지 -->
+      <div class="feature-img-wrap reveal">
+        <div class="feature-img">
+          <img src="assets/images/feature.jpg" alt="피처 고양이"
+            onerror="this.style.display='none'" />
+          <div class="img-placeholder">
+            <span class="ph-icon">👑</span>
+            <span>피처 고양이 사진</span>
+            <span class="ph-name">assets/images/feature.jpg</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 피처 텍스트 -->
+      <div class="feature-copy reveal">
+        <div class="badge">🔬 정복의 과학</div>
+        <h2>
+          왜 고양이는<br />
+          <em>세상을 지배하는가</em>
+        </h2>
+        <p>
+          고양이는 수천 년 전 이집트에서 신으로 숭배받았다.
+          그것은 우연이 아니었다. 고양이는 귀여움이라는 전략적 무기와
+          날카로운 눈빛, 그리고 끝없는 애교로 인간의 마음을 정복해왔다.
+        </p>
+        <p>
+          오늘도 전 세계 수억 명의 인간이 자발적으로 고양이의 집사를 자처하며
+          최상급 간식을 바치고 있다. 정복은 이미 완료되었다.
+        </p>
+        <div class="feature-stats">
+          <div class="stat">
+            <span class="num">6억+</span>
+            <span class="label">전 세계 고양이 수</span>
+          </div>
+          <div class="stat">
+            <span class="num">100%</span>
+            <span class="label">정복 성공률</span>
+          </div>
+          <div class="stat">
+            <span class="num">∞</span>
+            <span class="label">귀여움 지수</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       MANIFESTO / QUOTE
+  ════════════════════════════════════════ -->
+  <section class="manifesto reveal" id="manifesto">
+    <div class="manifesto-inner">
+      <blockquote>
+        "고양이는 지구를 정복하기 위해<br />
+        <span class="highlight">태어난 존재다.</span><br />
+        그리고 인간은 그것을 사랑한다."
+      </blockquote>
+      <cite>— The Feline Manifesto, 2025 🐾</cite>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer>
+    <span class="footer-logo">🐾 Cat Dominates World</span>
+    <span>© 2025. 고양이에게 바칩니다.</span>
+    <a href="#">맨 위로 ↑</a>
+  </footer>
+
+
+  <!-- ════════════════════════════════════════
+       SCROLL REVEAL SCRIPT
+  ════════════════════════════════════════ -->
+  <script>
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add('in-view');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
